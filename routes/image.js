@@ -10,9 +10,9 @@ const Image = require('../model/images');
 // Initialize AWS
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ID,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY_ID,
     signatureVersion: 'v4',
-    region: process.env.AWS_REGION
+    region: process.env.AWS_REGION_NAME
 });
 
 // Create a storage
@@ -50,8 +50,7 @@ router.post("/upload", fetchUser, upload, async (req, res) => {
             if (error)
                 return res.status(500).json({
                     type: "error",
-                    message: "Error in uploading.",
-                    error: error
+                    message: "Error in uploading."
                 });
 
             // Get the public url of the file

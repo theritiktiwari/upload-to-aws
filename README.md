@@ -16,9 +16,9 @@ MAIL_SENDER_NAME=
 WEBSITE_HOST=
 JWT_SECRET_KEY=
 AWS_ID=
-AWS_SECRET_KEY=
+AWS_SECRET_KEY_ID=
 AWS_BUCKET_NAME=
-AWS_REGION=
+AWS_REGION_NAME=
 ```
 
 - Run `yarn dev` OR `npm dev` to start the development server.
