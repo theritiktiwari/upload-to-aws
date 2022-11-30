@@ -1,10 +1,8 @@
-# Getting Started with Create React App
+# Upload Image on AWS S3 Bucket
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a basic application to upload image on AWS S3 Bucket, after it will show the images to the user who upload it.
 
-## Available Scripts
-
-In the project directory, you can run:
+## For Developers
 
 ### `yarn start`
 
