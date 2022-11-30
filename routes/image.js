@@ -50,7 +50,7 @@ router.post("/upload", fetchUser, upload, async (req, res) => {
             if (error)
                 return res.status(500).json({
                     type: "error",
-                    message: "Something went wrong"
+                    message: "Error in uploading."
                 });
 
             // Get the public url of the file

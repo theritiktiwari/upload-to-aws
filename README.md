@@ -22,7 +22,7 @@ AWS_REGION=
 ```
 
 - Run `yarn dev` OR `npm dev` to start the development server.
-- Import the "./Requests.json" file in Thunder client or Postman to test the APIs or you can do it manually.
+- Import the [Requests.json](./Requests.json) file in Thunder client or Postman to test the APIs or you can do it manually.
 
 ### New User Registration
 
