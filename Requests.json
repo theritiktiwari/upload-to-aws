@@ -1,0 +1,165 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "upload-to-AWS",
+  "dateExported": "2022-11-30T09:56:37.601Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "_id": "057bb15a-0f02-4c4d-b554-39bd8a53a4f7",
+      "name": "auth",
+      "containerId": "",
+      "created": "2022-11-27T14:05:00.842Z",
+      "sortNum": 10000
+    },
+    {
+      "_id": "2fd1e66d-8771-4ad6-88a7-51cb1d55bff1",
+      "name": "image",
+      "containerId": "",
+      "created": "2022-11-30T07:36:50.998Z",
+      "sortNum": 20000
+    }
+  ],
+  "requests": [
+    {
+      "_id": "24a13784-8567-4c2c-b569-80c02a460a33",
+      "colId": "b3b53747-e85d-44b8-888f-362f4d96dfbf",
+      "containerId": "057bb15a-0f02-4c4d-b554-39bd8a53a4f7",
+      "name": "New User",
+      "url": "http://127.0.0.1:5000/api/register",
+      "method": "POST",
+      "sortNum": 10000,
+      "created": "2022-11-27T14:05:10.061Z",
+      "modified": "2022-11-30T09:43:20.984Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"firstname\": \"Dummy\",\n  \"lastname\": \"User\",\n  \"email\": \"abc@gmail.com\",\n  \"password\": \"12345678\",\n  \"age\": 20,\n  \"city\": \"Chennai\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "67396090-1b5b-49eb-9a22-ec660f984dfa",
+      "colId": "b3b53747-e85d-44b8-888f-362f4d96dfbf",
+      "containerId": "057bb15a-0f02-4c4d-b554-39bd8a53a4f7",
+      "name": "verify",
+      "url": "http://127.0.0.1:5000/api/verify",
+      "method": "POST",
+      "sortNum": 15000,
+      "created": "2022-11-27T18:26:13.607Z",
+      "modified": "2022-11-30T09:56:26.558Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"code\": \"0663ec8a-36b0-4f4b-a974-3ebc5368a608\",\n  \"user_id\": \"638725c0c3cf40ffb46e3010\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "24be4508-a8c2-448e-99bc-dacff91679aa",
+      "colId": "b3b53747-e85d-44b8-888f-362f4d96dfbf",
+      "containerId": "057bb15a-0f02-4c4d-b554-39bd8a53a4f7",
+      "name": "Login",
+      "url": "http://127.0.0.1:5000/api/login",
+      "method": "POST",
+      "sortNum": 20000,
+      "created": "2022-11-27T14:40:35.122Z",
+      "modified": "2022-11-30T09:43:04.490Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"abc@gmail.com\",\n  \"password\": \"12345678\"\n}",
+        "form": []
+      },
+      "tests": []
+    },
+    {
+      "_id": "8e3cac35-5360-4b41-8948-1c259f94b6b6",
+      "colId": "b3b53747-e85d-44b8-888f-362f4d96dfbf",
+      "containerId": "057bb15a-0f02-4c4d-b554-39bd8a53a4f7",
+      "name": "Get User Details",
+      "url": "http://127.0.0.1:5000/api/getuser",
+      "method": "POST",
+      "sortNum": 30000,
+      "created": "2022-11-27T14:52:22.096Z",
+      "modified": "2022-11-30T09:55:19.950Z",
+      "headers": [
+        {
+          "name": "auth-token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NzI1YzBjM2NmNDBmZmI0NmUzMDEwIn0sImlhdCI6MTY2OTgwMjA5Nn0.PnX8kD-heXHCwWFaCDVY1TuSjpQGmUNIUE0d1V3EN7I"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "a5aa5510-ae10-4003-94fe-2e8a46b0635c",
+      "colId": "b3b53747-e85d-44b8-888f-362f4d96dfbf",
+      "containerId": "2fd1e66d-8771-4ad6-88a7-51cb1d55bff1",
+      "name": "upload",
+      "url": "http://127.0.0.1:5000/api/upload",
+      "method": "POST",
+      "sortNum": 60000,
+      "created": "2022-11-30T07:42:41.863Z",
+      "modified": "2022-11-30T09:55:31.247Z",
+      "headers": [
+        {
+          "name": "auth-token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NzI1YzBjM2NmNDBmZmI0NmUzMDEwIn0sImlhdCI6MTY2OTgwMjA5Nn0.PnX8kD-heXHCwWFaCDVY1TuSjpQGmUNIUE0d1V3EN7I"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "formdata",
+        "raw": "",
+        "form": [],
+        "files": [
+          { "name": "image", "value": "/Users/ritiktiwari/Downloads/Logo.png" }
+        ]
+      },
+      "tests": []
+    },
+    {
+      "_id": "993e9c41-2108-431f-8225-df6be2662f4e",
+      "colId": "b3b53747-e85d-44b8-888f-362f4d96dfbf",
+      "containerId": "2fd1e66d-8771-4ad6-88a7-51cb1d55bff1",
+      "name": "images",
+      "url": "http://127.0.0.1:5000/api/images",
+      "method": "POST",
+      "sortNum": 70000,
+      "created": "2022-11-30T08:59:02.429Z",
+      "modified": "2022-11-30T09:55:46.555Z",
+      "headers": [
+        {
+          "name": "auth-token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NzI1YzBjM2NmNDBmZmI0NmUzMDEwIn0sImlhdCI6MTY2OTgwMjA5Nn0.PnX8kD-heXHCwWFaCDVY1TuSjpQGmUNIUE0d1V3EN7I"
+        }
+      ],
+      "params": [],
+      "tests": []
+    },
+    {
+      "_id": "617ed795-6284-4da5-bd98-f49af6a87390",
+      "colId": "b3b53747-e85d-44b8-888f-362f4d96dfbf",
+      "containerId": "2fd1e66d-8771-4ad6-88a7-51cb1d55bff1",
+      "name": "Find Image by ID",
+      "url": "http://127.0.0.1:5000/api/image/6387289521780c3349b5f470",
+      "method": "POST",
+      "sortNum": 80000,
+      "created": "2022-11-30T09:27:47.555Z",
+      "modified": "2022-11-30T09:56:00.282Z",
+      "headers": [
+        {
+          "name": "auth-token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NzI1YzBjM2NmNDBmZmI0NmUzMDEwIn0sImlhdCI6MTY2OTgwMjA5Nn0.PnX8kD-heXHCwWFaCDVY1TuSjpQGmUNIUE0d1V3EN7I"
+        }
+      ],
+      "params": [],
+      "tests": []
+    }
+  ]
+}

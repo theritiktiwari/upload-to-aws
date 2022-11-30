@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const { v4: uuidv4 } = require('uuid');
 
+// Declare the schema (how the uaer data will be stored)
 const userSchema = new Schema({
     firstname: {
         type: String,
@@ -31,17 +32,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    type: {
-        type: String,
-        default: 'user'
-    },
     verificationCode: {
         type: String,
         required: true,
         default: uuidv4()
-    },
-    passwordResetCode: {
-        type: String,
     },
     verified: {
         type: Boolean,

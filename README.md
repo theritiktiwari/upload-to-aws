@@ -4,65 +4,243 @@ This is a basic application to upload image on AWS S3 Bucket, after it will show
 
 ## For Developers
 
-### `yarn start`
+- In the root directory of the project, run `yarn install` OR `npm install` to install all the dependencies.
+- After that create a `.env` file in the root directory of the project and add the variables mentioned in `.env.example`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+PORT=
+DATABASE_URI=
+MAIL_USER=
+MAIL_PASS=
+MAIL_SENDER_NAME=
+WEBSITE_HOST=
+JWT_SECRET_KEY=
+AWS_ID=
+AWS_SECRET_KEY=
+AWS_BUCKET_NAME=
+AWS_REGION=
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Run `yarn dev` OR `npm dev` to start the development server.
+- Import the "./Requests.json" file in Thunder client or Postman to test the APIs or you can do it manually.
 
-### `yarn test`
+### New User Registration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- API Endpoint: `http://127.0.0.1:5000/api/register`
+- Run the API with POST method and pass the following data in the **body**.
 
-### `yarn build`
+**Request**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```json
+{
+  "firstname": "Dummy",
+  "lastname": "User",
+  "email": "abc@gmail.com",
+  "password": "12345678",
+  "age": 20,
+  "city": "Your city"
+}
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Response**
 
-### `yarn eject`
+```json
+{
+  "type": "success",
+  "message": "Account created successfully, please verify your account.",
+  "data": "token"
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Verify User Account
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- API Endpoint: `http://127.0.0.1:5000/api/verify`
+- Get the code and ID from the email.
+- Run the API with POST method and pass the following data in the **body**.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Request**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```json
+{
+  "code": "your_code",
+  "user_id": "your_id"
+}
+```
 
-## Learn More
+<br />
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Response**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```json
+{
+  "type": "success",
+  "message": "Account verified successfully."
+}
+```
 
-### Code Splitting
+### Login
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- API Endpoint: `http://127.0.0.1:5000/api/login`
+- Run the API with POST method and pass the following data in the **body**.
 
-### Analyzing the Bundle Size
+**Request**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```json
+{
+  "email": "abc@gmail.com",
+  "password": "12345678"
+}
+```
 
-### Making a Progressive Web App
+<br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Response**
 
-### Advanced Configuration
+```json
+{
+  "type": "success",
+  "message": "User autheticated successfully.",
+  "data": "token"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Get User Profile
 
-### Deployment
+- API Endpoint: `http://127.0.0.1:5000/api/getuser`
+- Run the API with POST method and pass the following data in the **header**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Request**
 
-### `yarn build` fails to minify
+```json
+{
+  "auth-token": "token"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<br />
+
+**Response**
+
+```json
+{
+  "type": "success",
+  "message": "User details fetched successfully.",
+  "data": {
+    "_id": "<user-id>",
+    "firstname": "<user-firstname>",
+    "lastname": "<user-lastname>",
+    "email": "<user-email>",
+    "age": "<user-age>",
+    "city": "<user-city>",
+    "verificationCode": "<user-verificationCode>",
+    "verified": "<user-status>",
+    "date": "<date>"
+  }
+}
+```
+
+### Upload Image
+
+- API Endpoint: `http://127.0.0.1:5000/api/upload`
+- Run the API with POST method and pass the following data in the **form-data**.
+
+**Request**
+
+```json
+{
+  "image": "image.jpg"
+}
+```
+
+<br />
+
+**Response**
+
+```json
+{
+  "type": "success",
+  "message": "Image uploaded successfully",
+  "data": {
+    "ETag": "<some-value>",
+    "Location": "<link>",
+    "key": "<name>",
+    "Key": "<name>",
+    "Bucket": "<bucket-name>"
+  }
+}
+```
+
+### Fetch all the image uploaded by the user
+
+- API Endpoint: `http://127.0.0.1:5000/api/images`
+- Run the API with POST method and pass the following data in the **header**.
+
+**Request**
+
+```json
+{
+  "auth-token": "token"
+}
+```
+
+<br />
+
+**Response**
+
+```json
+{
+  "type": "success",
+  "message": "Images fetched successfully",
+  "data": [
+    {
+      "_id": "<image-id>",
+      "name": "<image-name>",
+      "link": "<image-url>",
+      "user_id": "<user-id>",
+      "date": "<date>"
+    },
+    {
+      "_id": "<image-id>",
+      "name": "<image-name>",
+      "link": "<image-url>",
+      "user_id": "<user-id>",
+      "date": "<date>"
+    }
+  ]
+}
+```
+
+### Fetch the image by image ID
+
+- API Endpoint: `http://127.0.0.1:5000/api/image/:id`
+- Run the API with POST method and pass the following data in the **header**.
+
+**Request**
+
+```json
+{
+  "auth-token": "token"
+}
+```
+
+<br />
+
+**Response**
+
+```json
+{
+  "type": "success",
+  "message": "Images fetched successfully",
+  "data": [
+    {
+      "_id": "<image-id>",
+      "name": "<image-name>",
+      "link": "<image-url>",
+      "user_id": "<user-id>",
+      "date": "<date>"
+    }
+  ]
+}
+```

@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
+const { body, validationResult } = require('express-validator');
+
 const User = require('../model/users');
 const mailSender = require("../config/mailer");
 const fetchUser = require("../middleware/fetchUser");
@@ -16,6 +17,7 @@ router.post("/register", [
     body('age', "Age should be a number").isNumeric(),
     body('city', "City should not be null").notEmpty()
 ], async (req, res) => {
+
     // Return bad requests for errors
     const error = validationResult(req);
     if (!error.isEmpty()) {
@@ -26,8 +28,8 @@ router.post("/register", [
     }
 
     try {
-        const { firstname, lastname, email, password, age, city, url } = req.body;
         // Check if the user exist
+        const { firstname, lastname, email, password, age, city } = req.body;
         let user = await User.findOne({ email: email });
         if (user) {
             return res.status(409).json({
@@ -36,7 +38,9 @@ router.post("/register", [
             });
         }
 
+        // Hash the password
         const hashPass = await argon2.hash(password);
+
         // Send value in Database
         user = await User.create({
             firstname: firstname,
@@ -51,11 +55,13 @@ router.post("/register", [
                 id: user.id
             }
         }
+
         // If user created successfully, then send a mail to user
         if (user_data) {
-            let mail_data = `Hi ${firstname}, <br> <br> Welcome to the family. <br> <br> Please verify your email by clicking on the link below. <br> <br> <a href="${url}/code=${user.verificationCode}&user=${user.id}">Verify Email</a> <br> <br> <b>Regards, ${process.env.MAIL_SENDER_NAME}</b>`;
+            let mail_data = `Hi ${firstname}, <br> <br> Welcome to the family. <br> <br> Please verify your email by clicking on the link below. <br> <br> <a href="${process.env.WEBSITE_HOST}/verify/code=${user.verificationCode}&user=${user.id}">Verify Email</a> <br> <br> Code: ${user.verificationCode} <br /> ID: ${user.id} <br/> <br/> <b>Regards, ${process.env.MAIL_SENDER_NAME}</b>`;
             let mailsent = mailSender(email, "Account verification", mail_data);
             const authToken = jwt.sign(user_data, process.env.JWT_SECRET_KEY);
+
             // If mail sent successfully, then send a response to user
             if (mailsent && authToken) {
                 res.status(200).json({
@@ -74,7 +80,6 @@ router.post("/register", [
         res.status(500).json({
             type: "error",
             message: "Something went wrong.",
-            // message: err.message
         });
     }
 });
@@ -84,6 +89,7 @@ router.post('/login', [
     body('email', "Enter a valid Email").isEmail(),
     body('password', "Password can't be blank").exists()
 ], async (req, res) => {
+
     // Return bad requests for errors
     const error = validationResult(req);
     if (!error.isEmpty()) {
@@ -94,8 +100,9 @@ router.post('/login', [
     }
 
     const { email, password } = req.body;
-
     try {
+
+        // Check if the user exist or not
         let user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({
@@ -104,6 +111,7 @@ router.post('/login', [
             });
         }
 
+        // Check if the password is correct or not
         const passwordCompare = await argon2.verify(user.password, password);
         if (!passwordCompare) {
             return res.status(400).json({
@@ -112,6 +120,7 @@ router.post('/login', [
             });
         }
 
+        // Check if the user is verified or not
         if (!user.verified) {
             return res.status(400).json({
                 type: "error",
@@ -119,6 +128,7 @@ router.post('/login', [
             });
         }
 
+        // Create a token and send it to user
         const user_data = {
             user: {
                 id: user.id
@@ -130,7 +140,6 @@ router.post('/login', [
             message: "Login successfully.",
             data: authToken
         });
-
     } catch (err) {
         console.log(err.message);
         res.status(500).json({
@@ -143,6 +152,8 @@ router.post('/login', [
 // ROUTE 3 - Get loggedin user details with endpoint (POST : '/getuser')
 router.post('/getuser', fetchUser, async (req, res) => {
     try {
+
+        // Get user details
         const user = await User.findById(req.user.id).select("-password");
         res.status(200).json({
             type: "success",
@@ -161,6 +172,8 @@ router.post('/getuser', fetchUser, async (req, res) => {
 // ROUTE 4 - Verify the user account with endpoint (POST : '/verify')
 router.post('/verify', async (req, res) => {
     try {
+
+        // Check if the user exist or not
         const { code, user_id } = req.body;
         const user = await User.findById(user_id);
         if (!user)
@@ -169,15 +182,16 @@ router.post('/verify', async (req, res) => {
                 message: "Could not verify user."
             });
 
+        // Check if the user is already verified or not
         if (user.verified)
             return res.status(400).json({
                 type: "error",
                 message: "User already verified."
             });
 
+        // Check if the verification code is correct or not
         if (user.verificationCode === code) {
             user.verified = true;
-            // user.verificationCode = null;
             await user.save();
 
             res.status(200).json({
